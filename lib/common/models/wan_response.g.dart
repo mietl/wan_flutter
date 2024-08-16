@@ -1,23 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'generic_model.dart';
+part of 'wan_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Response<T> _$ResponseFromJson<T>(
+ObjectResponse<T> _$ObjectResponseFromJson<T>(
   Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
 ) =>
-    Response<T>(
+    ObjectResponse<T>(
       data: _$nullableGenericFromJson(json['data'], fromJsonT),
-      errorCode: (json['errorCode'] as num?)?.toInt(),
-      errorMsg: json['errorMsg'] as String?,
+      errorCode: (json['errorCode'] as num).toInt(),
+      errorMsg: json['errorMsg'] as String,
     );
 
-Map<String, dynamic> _$ResponseToJson<T>(
-  Response<T> instance,
+Map<String, dynamic> _$ObjectResponseToJson<T>(
+  ObjectResponse<T> instance,
   Object? Function(T value) toJsonT,
 ) =>
     <String, dynamic>{
@@ -43,7 +43,7 @@ ListResponse<T> _$ListResponseFromJson<T>(
   T Function(Object? json) fromJsonT,
 ) =>
     ListResponse<T>(
-      data: (json['data'] as List<dynamic>).map(fromJsonT).toList(),
+      data: (json['data'] as List<dynamic>?)?.map(fromJsonT).toList(),
       errorCode: (json['errorCode'] as num).toInt(),
       errorMsg: json['errorMsg'] as String,
     );
@@ -53,7 +53,7 @@ Map<String, dynamic> _$ListResponseToJson<T>(
   Object? Function(T value) toJsonT,
 ) =>
     <String, dynamic>{
-      'data': instance.data.map(toJsonT).toList(),
+      'data': instance.data?.map(toJsonT).toList(),
       'errorCode': instance.errorCode,
       'errorMsg': instance.errorMsg,
     };

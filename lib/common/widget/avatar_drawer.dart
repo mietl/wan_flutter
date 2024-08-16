@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:wan_flutter/common/api/user_api.dart';
+import 'package:wan_flutter/common/models/coin.dart';
+import 'package:wan_flutter/common/provider/user_provider.dart';
+import 'package:wan_flutter/pages/login/index.dart';
+import 'package:provider/provider.dart';
 
 class AvatarDrawer extends StatefulWidget{
   const AvatarDrawer({super.key});
-
+  
+  @override
   State<StatefulWidget> createState() {
     return _AvatarDrawerState();
   }
@@ -10,28 +16,62 @@ class AvatarDrawer extends StatefulWidget{
 }
 
 class _AvatarDrawerState extends State<AvatarDrawer>{
+  Coin? _coin;
+
+  late UserProvider _userProvider;
+
+
+  @override
+  void initState() {
+    _userProvider = Provider.of<UserProvider>(context, listen: false);
+    
+    _userProvider.addListener(_userProviderListener);
+
+   
+    super.initState();
+  }
+
+  _userProviderListener(){
+    if (_userProvider.loginStatus) {
+      _getUserCoin();
+    }
+  }
+  
+
+  _getUserCoin() async {
+    final data = await UserApi.getUserCoin();
+     setState(() {
+        _coin = data;
+    });
+  }
+  
+  @override 
+  void dispose() {
+    _userProvider.removeListener(_userProviderListener);
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context){
     return Drawer(
       child: ListView(
-        children: const <Widget>[
+        children: <Widget>[
           DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color(0xEADFD7),
+              decoration: const BoxDecoration(
+                color:  Color(0xFFEADFD7),
               ),
               child: Column(
                 children: [
                   Row(
                     children: [
-                      Text('mietl',
-                          style: TextStyle(
+                      Text(_coin?.username??'--',
+                          style: const TextStyle(
                             fontSize: 24,
                           )
                       ),
-                      Icon(Icons.male,color: Color(0xFF619AC3),size: 29)
+                      const Icon(Icons.male,color: Color(0xFF619AC3),size: 29)
                     ],
                   ),
-                  Text(
+                  const Text(
                     '现实也许没有那么天真，但我想要做什么事，虽然不知道答案，但是只要有所行动，就一定会有所改变。',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -41,16 +81,23 @@ class _AvatarDrawerState extends State<AvatarDrawer>{
               )
           ),
           ListTile(
-            leading: Icon(Icons.credit_score),
-            title: Text("当前积分"),
+            leading: const Icon(Icons.credit_score),
+            title: Text("当前积分(${_coin?.coinCount ?? 0} )"),
           ),
-          ListTile(
+          const ListTile(
             leading: Icon(Icons.settings),
             title: Text('设置'),
           ),
           ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('退出登陆'),
+            leading: const Icon(Icons.logout),
+            title: Text(_coin!=null?'退出登陆':'登录'),
+            onTap: (){
+              if(_coin==null){
+                Navigator.of(context).push(MaterialPageRoute(builder:(context){
+                  return const LoginPage();
+                }));
+              }
+            },
           )
         ],
       ),

@@ -1,3 +1,5 @@
 class ApiConstant{
-  static String baseUrl = '1232';
+  static String baseUrl = 'https://www.wanandroid.com';
+
+  static String coin = '/lg/coin/userinfo/json';
 }

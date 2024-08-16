@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget{
@@ -16,7 +13,7 @@ class LoginPage extends StatefulWidget{
 
 class _LoginPageState extends State<LoginPage> {
   //边框样式
-  final OutlineInputBorder _outlineInputBorder = OutlineInputBorder(
+  final OutlineInputBorder _outlineInputBorder = const OutlineInputBorder(
     gapPadding: 0,
     borderSide: BorderSide(
       color: Color(0xFFE3E3D8),
@@ -46,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
         title: const Text('登录'),
       ),
       body:  Padding(
-        padding: EdgeInsets.all(14),
+        padding: const EdgeInsets.all(14),
         child: Column(
           children: [
             TextField(
@@ -76,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
               alignment: Alignment.bottomRight,
               child: GestureDetector(
                 onTap: (){
-                  print('register');
+                  debugPrint('register');
                 },
                 child: const Text('去注册',
                     style: TextStyle(fontSize: 16,decoration: TextDecoration.underline)

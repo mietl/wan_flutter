@@ -1,9 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:wan_flutter/pages/login/index.dart';
-import './common/widget/avatar_drawer.dart';
+import 'package:provider/provider.dart';
+import 'package:wan_flutter/common/provider/user_provider.dart';
+import 'package:wan_flutter/common/utils/http_util.dart';
+import 'package:wan_flutter/common/utils/shared_preferences_util.dart';
+import 'package:wan_flutter/common/values/color.dart';
+import 'package:wan_flutter/pages/main/index.dart';
+// import 'package:wan_flutter/pages/login/index.dart';
 
 void main() {
-  runApp(const MyApp());
+   // 确保Flutter框架初始化完成
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferencesUtil.init().then((value){
+    var cookie = SharedPreferencesUtil().getStringList('cookie');
+    WanHttpUtil.setCookies(cookie);
+  });
+  
+ 
+
+  runApp(
+    ChangeNotifierProvider(
+      child: const MyApp(),
+      create: (BuildContext context)=> UserProvider(),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,43 +33,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'wan_flutter',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: WanColor.phoenixPurple),
         useMaterial3: true,
       ),
-      home: LoginPage()
+      home: const MainPageView()
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'text',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      drawer: const AvatarDrawer(),
-    );
-  }
-}

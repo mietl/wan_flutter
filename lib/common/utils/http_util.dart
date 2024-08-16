@@ -1,24 +1,40 @@
 import 'dart:io';
+import 'package:wan_flutter/common/models/wan_response.dart';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:wan_flutter/common/utils/api_constant.dart';
-import './settings.dart';
-
-class WanHttp {
-  WanHttp();
-
-  static const bool debugProxy = true;
-
-  static final Dio _dio = Dio(BaseOptions(
-    baseUrl: ApiConstant.baseUrl,
-    connectTimeout: const Duration(seconds: 30),
-    receiveTimeout: const Duration(seconds: 30)
-  ));
 
 
-  static void init(){
-    if(isDebug){
+class UnauthorizedException implements Exception {
+  final String message;
+  UnauthorizedException(this.message);
+}
+
+class WanException implements Exception {
+  final String message;
+  WanException(this.message);
+}
+
+class WanHttpUtil {
+  static const bool debugProxy = false;
+
+  static final WanHttpUtil _instance = WanHttpUtil._internal();
+
+  factory WanHttpUtil() => _instance;
+
+  static late final Dio _dio;
+
+  WanHttpUtil._internal(){
+    _dio = Dio(BaseOptions(
+        baseUrl: ApiConstant.baseUrl,
+        responseType: ResponseType.json,
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30)
+    ));
+
+
+    if(debugProxy){
       _dio.httpClientAdapter = IOHttpClientAdapter(
         createHttpClient: (){
           return HttpClient()
@@ -30,21 +46,53 @@ class WanHttp {
       );
     }
 
+    // 日志拦截
+    _dio.interceptors.add(LogInterceptor(responseBody: true,requestBody: true));
 
-    _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (option,handler){
-        return handler.next(option);
-      },
-      onResponse: (response,handler){
-        return handler.next(response);
-      },
-      onError: (error,handler){
-        return handler.next(error);
-      }
-    ));
+    _dio.interceptors.add(ErrorInterceptor());
   }
 
 
+  Future<Response> get(String url,{ Map<String,dynamic>? queryParameters}){
+    return _dio.get(url,queryParameters: queryParameters);
+  }
 
 
+  Future<Response> post(String url,{
+    Map<String,dynamic>? queryParameters,
+    Object? data,
+  }){
+    return _dio.post(
+      url,
+      data: data,
+      queryParameters: queryParameters,
+    );
+  }
+
+  static setCookies(List<String>? cookies){
+    _dio.options.headers[HttpHeaders.cookieHeader] = cookies;
+  }
+
+  static removeCookies(){
+    _dio.options.headers.remove(HttpHeaders.cookieHeader);
+  }
+}
+
+class ErrorInterceptor extends Interceptor{
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    
+    var wanResponse = ObjectResponse.fromJson(response.data,(json)=>json);
+
+    switch(wanResponse.errorCode){
+      case 0:
+        handler.next(response);
+      case -1000:
+        throw UnauthorizedException(wanResponse.errorMsg);
+      default:
+        throw WanException(wanResponse.errorMsg);
+    }
+
+    // super.onResponse(response, handler);
+  }
 }
