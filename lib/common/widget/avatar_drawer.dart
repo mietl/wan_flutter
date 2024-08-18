@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wan_flutter/common/api/user_api.dart';
-import 'package:wan_flutter/common/models/coin.dart';
+import 'package:wan_flutter/common/models/user/coin.dart';
 import 'package:wan_flutter/common/provider/user_provider.dart';
 import 'package:wan_flutter/pages/login/index.dart';
 import 'package:provider/provider.dart';
@@ -27,22 +27,21 @@ class _AvatarDrawerState extends State<AvatarDrawer>{
     
     _userProvider.addListener(_userProviderListener);
 
-   
     super.initState();
   }
 
   _userProviderListener(){
-    if (_userProvider.loginStatus) {
+    if (_userProvider.userInfo != null) {
       _getUserCoin();
     }
   }
   
 
   _getUserCoin() async {
-    final data = await UserApi.getUserCoin();
-     setState(() {
+      final data = await UserApi.getUserCoin();
+      setState(() {
         _coin = data;
-    });
+      });
   }
   
   @override 

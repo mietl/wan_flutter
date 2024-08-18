@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:wan_flutter/common/models/user/user_info.dart';
 
 class UserProvider extends ChangeNotifier {
-  bool _loginStatus = false;
+  bool get loginStatus => userInfo != null;
 
-  bool get loginStatus => _loginStatus;
+  UserInfo? userInfo;
 
-  changeLoginStatus(status){
-    _loginStatus = status;
+  setUserInfo(UserInfo? value){
+    userInfo = value;
     notifyListeners();
   }
 }

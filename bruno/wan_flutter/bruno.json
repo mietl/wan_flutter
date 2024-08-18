@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "wan_flutter",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
