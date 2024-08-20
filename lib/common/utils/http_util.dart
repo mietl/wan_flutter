@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:wan_flutter/common/models/wan_response.dart';
+import 'package:wan_flutter/common/models/app/wan_response.dart';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wan_flutter/pages/home/index.dart';
+import 'package:wan_flutter/pages/wx_article/index.dart';
 
 class MainPageView extends StatefulWidget{
   const MainPageView({super.key});
@@ -34,7 +35,7 @@ class _MainPageViewState extends State<MainPageView>{
         onPageChanged: _onPageChanged,
         children: const [
           HomePage(),
-          Center(child: Text('文章')),
+          WxArticlePage(),
           Center(child: Text('收藏')),
           Center(child: Text('我的')),
         ],

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:wan_flutter/common/api/home_api.dart';
-import 'package:wan_flutter/common/models/home/article_list.dart';
+import 'package:wan_flutter/common/models/app/article_list.dart';
 import 'package:wan_flutter/common/models/home/banner.dart';
 import 'package:wan_flutter/common/utils/show_dialog.dart';
-import 'package:wan_flutter/common/utils/toast.dart';
 import 'package:wan_flutter/common/widget/article_tile.dart';
 import 'package:wan_flutter/common/widget/avatar_drawer.dart';
 import 'package:wan_flutter/common/widget/carousel_image.dart';
+import 'package:wan_flutter/pages/webview/index.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,7 +37,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
 
   _handlerScroll(){
     if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
-      _loadArticleList();
+      showLoadingBox(context);
+      _loadArticleList().whenComplete((){
+        if(mounted){
+          Navigator.pop(context);
+        }
+      });
     }
   }
 
@@ -73,7 +78,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
                         shrinkWrap:true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context,index){
-                          return ArticleTile(articleList[index]);
+                          return ArticleTile(articleList[index],onTap: _openArticleLink);
                         },
                         itemCount: articleList.length
                     )
@@ -84,6 +89,14 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
       ),
       drawer: const AvatarDrawer(),
     );
+  }
+
+  _openArticleLink(Article article){
+    if(article.link!=null){
+      Navigator.of(context).push(MaterialPageRoute(builder: (context){
+        return WanWebBrowser(url: Uri.parse(article.link!), title: article.title ?? '');
+      }));
+    }
   }
 
   @override
@@ -109,23 +122,14 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   Future<void> _loadArticleList() async {
     // 请求时展示Loading对话框
     // https://stackoverflow.com/questions/71626326/show-dialog-when-the-page-finish-init
-    WidgetsBinding.instance.addPostFrameCallback((_)=>showLoadingBox(context));
     HomeApi.requestArticleList(_currentPage).then((value){
       var data = value.datas ?? [];
       setState(() {
         articleList.addAll(data);
       });
-      toast('加载${value.size}条数据，当前${articleList.length}条');
+      debugPrint('加载${value.size}条数据，当前${articleList.length}条');
       _currentPage++;
-      if(mounted){
-        Navigator.pop(context);
-      }
-    }).catchError((e){
-      if(mounted){
-        Navigator.pop(context);
-      }
     });
-
   }
 
   @override

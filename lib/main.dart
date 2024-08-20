@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       builder: FlutterSmartDialog.init(),
       theme: ThemeData(
+        fontFamily: 'ResourceHanRoundedCN',
         // colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFefc7bc),primary: const Color(0xFFc8c3b7)),
         useMaterial3: true,
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wan_flutter/common/api/user_api.dart';
 import 'package:wan_flutter/common/models/user/user_info.dart';
-import 'package:wan_flutter/common/models/wan_response.dart';
+import 'package:wan_flutter/common/models/app/wan_response.dart';
 import 'package:wan_flutter/common/provider/user_provider.dart';
 import 'package:wan_flutter/common/utils/http_util.dart';
 import 'package:wan_flutter/common/utils/shared_preferences_util.dart';

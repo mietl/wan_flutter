@@ -1,6 +1,6 @@
-import 'package:wan_flutter/common/models/home/article_list.dart';
+import 'package:wan_flutter/common/models/app/article_list.dart';
 import 'package:wan_flutter/common/models/home/banner.dart';
-import 'package:wan_flutter/common/models/wan_response.dart';
+import 'package:wan_flutter/common/models/app/wan_response.dart';
 import 'package:wan_flutter/common/utils/api_constant.dart';
 import 'package:wan_flutter/common/utils/http_util.dart';
 
@@ -13,11 +13,12 @@ class HomeApi {
     return banner.data ?? [];
   }
 
-  static Future<ArticleListData> requestArticleList(int pageNumber) async {
-    var response = await WanHttpUtil().get('/article/list/$pageNumber/json');
+  static Future<ArticleListData> requestArticleList(int currentPage) async {
+    var response = await WanHttpUtil().get('/article/list/$currentPage/json');
 
     var article = ObjectResponse<ArticleListData>.fromJson(response.data,(json)=>ArticleListData.fromJson(json));
 
+    // TODO data 为空问题
     return article.data!;
   }
 }

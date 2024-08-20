@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:wan_flutter/common/models/user/coin.dart';
-import 'package:wan_flutter/common/models/wan_response.dart';
+import 'package:wan_flutter/common/models/app/wan_response.dart';
 import 'package:wan_flutter/common/utils/api_constant.dart';
 import 'package:wan_flutter/common/utils/http_util.dart';
 
