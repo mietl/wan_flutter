@@ -8,17 +8,18 @@ class HomeApi {
   static Future<List<BannerInfo>> requestBanner() async {
     var response = await WanHttpUtil().get(ApiConstant.banner);
 
-    var banner = ListResponse<BannerInfo>.fromJson(response.data,(json)=>BannerInfo.fromJson(json));
+    var banner = ListResponse<BannerInfo>.fromJson(
+        response.data, (json) => BannerInfo.fromJson(json));
 
-    return banner.data ?? [];
+    return banner.data;
   }
 
   static Future<ArticleListData> requestArticleList(int currentPage) async {
     var response = await WanHttpUtil().get('/article/list/$currentPage/json');
 
-    var article = ObjectResponse<ArticleListData>.fromJson(response.data,(json)=>ArticleListData.fromJson(json));
+    var article = ObjectResponse<ArticleListData>.fromJson(
+        response.data, (json) => ArticleListData.fromJson(json));
 
-    // TODO data 为空问题
-    return article.data!;
+    return article.data;
   }
 }

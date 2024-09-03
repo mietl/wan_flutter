@@ -43,6 +43,7 @@ dependencies:
   flutter_smart_dialog: ^4.9.8
   webview_flutter: ^4.8.0
   url_launcher: ^6.3.0
+  flutter_riverpod: ^2.5.1
 
 dev_dependencies:
   flutter_test:
