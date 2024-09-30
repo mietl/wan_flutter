@@ -18,4 +18,4 @@ samples, guidance on mobile development, and a full API reference.
 
 ## 感谢
 - [玩Android API](https://link.juejin.cn/?target=https%3A%2F%2Fwww.wanandroid.com%2Fblog%2Fshow%2F2): 感谢提供API
-- [flutter_wanandroid](https://github.com/coder-pig/flutter_wanandroid): 教程写的非常棒
+- [flutter_wanandroid](https://github.com/coder-pig/flutter_wanandroid): 感谢 [coderpig](https://github.com/coder-pig)写的教程

@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 class WanColor {
-  static const primary =  Color(0xFFf6e7ca);
+  static const primary = Color(0xFFf6e7ca);
 
   // 槲寄生绿 #2B312C
   static const secondaryGreen = Color(0xFF2B312C);
@@ -64,7 +64,4 @@ class WanColor {
   static const araceaeOrange = Color(0xFFC1651A);
 
   static const disbaledColor = Color(0xFFf4ede2);
-
-
-
 }

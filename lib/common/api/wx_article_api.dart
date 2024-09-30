@@ -14,7 +14,7 @@ class WxArticleApi {
   }
 
   static Future<ArticleListData> getWxArticleList(
-      int chapterId, int currentPage) async {
+      String chapterId, int currentPage) async {
     var response =
         await WanHttpUtil().get('/wxarticle/list/$chapterId/$currentPage/json');
 

@@ -48,10 +48,12 @@ class WanHttpUtil {
     // _dio.interceptors.add(ErrorInterceptor());
   }
 
-  Future<Response> _handleResponse<T>(Future<Response> Function() request) async {
+  Future<Response> _handleResponse<T>(
+      Future<Response> Function() request) async {
     try {
       final response = await request();
-      final wanResponse = ObjectResponse.fromJson(response.data, (json) => json);
+      final wanResponse =
+          ObjectResponse.fromJson(response.data, (json) => json);
 
       if (wanResponse.errorCode == 0) {
         return response;
@@ -60,28 +62,27 @@ class WanHttpUtil {
       } else {
         throw WanException(wanResponse.errorMsg);
       }
-    } on DioException catch(_){
+    } on DioException catch (_) {
       rethrow;
     }
   }
-  
 
-  Future<Response> get(String url, {Map<String, dynamic>? queryParameters}) async{
-    return _handleResponse(()=> _dio.get(url, queryParameters: queryParameters));
+  Future<Response> get(String url,
+      {Map<String, dynamic>? queryParameters}) async {
+    return _handleResponse(
+        () => _dio.get(url, queryParameters: queryParameters));
   }
-
 
   Future<Response> post(
     String url, {
     Map<String, dynamic>? queryParameters,
     Object? data,
   }) async {
-
-    return _handleResponse(()=> _dio.post(
-      url,
-      data: data,
-      queryParameters: queryParameters,
-    ));
+    return _handleResponse(() => _dio.post(
+          url,
+          data: data,
+          queryParameters: queryParameters,
+        ));
   }
 
   static setCookies(List<String>? cookies) {
@@ -92,7 +93,6 @@ class WanHttpUtil {
     _dio.options.headers.remove(HttpHeaders.cookieHeader);
   }
 }
-
 
 class ErrorInterceptor extends Interceptor {
   // https://github.com/cfug/dio/issues/1950
