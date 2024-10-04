@@ -19,4 +19,21 @@ class UserApi {
     return WanHttpUtil().post(ApiConstant.login,
         queryParameters: {'username': username, 'password': password});
   }
+
+  // 注册
+  static Future<Response> registerUser(
+      String username, String password, String repassword) async {
+    return WanHttpUtil().post(ApiConstant.register, queryParameters: {
+      'username': username,
+      'password': password,
+      'repassword': repassword
+    });
+  }
+
+  // 退出登录
+  static Future<Response> logout() {
+    return WanHttpUtil().post(
+      ApiConstant.logout,
+    );
+  }
 }
