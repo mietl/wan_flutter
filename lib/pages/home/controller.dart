@@ -22,13 +22,9 @@ class HomePageController extends GetxController {
   final ScrollController scrollController = ScrollController();
 
   @override
-  void onReady() {
-    scrollController.addListener(handlerScroll);
-    super.onReady();
-  }
-
-  @override
   void onInit() {
+    scrollController.addListener(handlerScroll);
+
     requestBannerData();
 
     loadArticleList();

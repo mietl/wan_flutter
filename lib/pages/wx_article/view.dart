@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import './controller.dart';
-import 'widgets/article_list/view.dart';
+import 'widgets/article_list/index.dart';
 
 class WxArticlePage extends StatefulWidget {
   const WxArticlePage({super.key});

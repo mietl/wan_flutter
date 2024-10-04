@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:wan_flutter/common/store/app_theme_controller.dart';
+import 'package:wan_flutter/common/global/app_theme.dart';
 
 import 'package:wan_flutter/common/utils/http_util.dart';
 import 'package:wan_flutter/common/utils/shared_preferences_util.dart';
-import 'package:wan_flutter/pages/main/view.dart';
-import 'package:wan_flutter/common/store/auth_controller.dart';
+import 'package:wan_flutter/pages/main/index.dart';
+import 'package:wan_flutter/common/global/auth.dart';
 
 void main() {
   // 确保Flutter框架初始化完成
@@ -17,7 +17,7 @@ void main() {
 
   SharedPreferencesUtil.init().then((value) {
     var cookie = SharedPreferencesUtil().getStringList('cookie');
-    WanHttpUtil.setCookies(cookie);
+    WanHttpUtil.setHeadersCookies(cookie);
   });
 
   runApp(const MyApp());

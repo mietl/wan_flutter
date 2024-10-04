@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wan_flutter/common/store/auth_controller.dart';
-import 'package:wan_flutter/pages/login/view.dart';
+import 'package:wan_flutter/common/global/auth.dart';
 
 import 'controller.dart';
 
@@ -39,20 +38,19 @@ class UserFaceMenu extends StatelessWidget {
               )),
           ListTile(
             leading: const Icon(Icons.credit_score),
+            onTap: controller.getUserCoin,
             title: Text("当前积分(${controller.coin.value?.coinCount ?? 0} )"),
           ),
-          const ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('设置'),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('设置'),
+            onTap: controller.openSettings,
           ),
           ListTile(
-            leading: const Icon(Icons.logout),
-            title: Obx(() =>
-                Text(authController.userInfo.value != null ? '退出登陆' : '登录')),
-            onTap: () {
-              Get.to(const LoginPage());
-            },
-          )
+              leading: const Icon(Icons.logout),
+              title: Obx(() =>
+                  Text(authController.userInfo.value != null ? '退出登陆' : '登录')),
+              onTap: controller.toLogin)
         ],
       ),
     );

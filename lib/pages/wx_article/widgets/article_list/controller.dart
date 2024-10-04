@@ -6,8 +6,6 @@ import 'package:wan_flutter/common/models/app/article_list.dart';
 import 'package:wan_flutter/common/utils/show_dialog.dart';
 
 import 'package:wan_flutter/common/api/wx_article_api.dart';
-import 'package:wan_flutter/common/utils/toast.dart';
-
 import 'package:wan_flutter/pages/webview/index.dart';
 
 class WxArticleListController extends GetxController {

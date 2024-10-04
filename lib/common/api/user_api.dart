@@ -22,9 +22,12 @@ class UserApi {
 
   // 注册
   static Future<Response> registerUser(
-      String username, String password, String repassword) {
-    return WanHttpUtil().post(ApiConstant.register,
-        queryParameters: {'username': username, 'password': password});
+      String username, String password, String repassword) async {
+    return WanHttpUtil().post(ApiConstant.register, queryParameters: {
+      'username': username,
+      'password': password,
+      'repassword': repassword
+    });
   }
 
   // 退出登录

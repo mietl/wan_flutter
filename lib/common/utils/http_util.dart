@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:get/get.dart' hide Response;
 import 'package:wan_flutter/common/models/app/wan_response.dart';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:wan_flutter/common/utils/api_constant.dart';
+import 'package:wan_flutter/pages/login/index.dart';
 
 class UnauthorizedException implements Exception {
   final String message;
@@ -58,6 +60,8 @@ class WanHttpUtil {
       if (wanResponse.errorCode == 0) {
         return response;
       } else if (wanResponse.errorCode == -1000) {
+        removeHeadersCookies();
+        Get.to(() => const LoginPage());
         throw UnauthorizedException(wanResponse.errorMsg);
       } else {
         throw WanException(wanResponse.errorMsg);
@@ -85,11 +89,11 @@ class WanHttpUtil {
         ));
   }
 
-  static setCookies(List<String>? cookies) {
+  static setHeadersCookies(List<String>? cookies) {
     _dio.options.headers[HttpHeaders.cookieHeader] = cookies;
   }
 
-  static removeCookies() {
+  static removeHeadersCookies() {
     _dio.options.headers.remove(HttpHeaders.cookieHeader);
   }
 }
